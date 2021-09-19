@@ -12,7 +12,7 @@ export const saveTask = async(request: Request, response: Response) =>
 {
     const task = await getRepository(Tasks).save(request.body)
     return response.json(task);
-}
+};
 
 export const getTask = async(request: Request, response: Response) =>
 {
