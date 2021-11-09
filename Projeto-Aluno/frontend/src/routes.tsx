@@ -10,10 +10,10 @@ const Routes: React.FC = () => {
     return(
         <Switch>
             <Route path="/" exact component={Home} />
-            <Route path="/tarefas" exact component={Tasks} />
-            <Route path="/tarefas_cadastro" exact component={TasksForm} />
-            <Route path="/tarefas_cadastro/:id" exact component={TasksForm} />
-            <Route path="/tarefas/:id" exact component={TasksDetail} />
+            <Route path="/alunos" exact component={Alunos} />
+            <Route path="/alunos_cadastro" exact component={TasksForm} />
+            <Route path="/alunos_cadastro/:id" exact component={TasksForm} />
+            <Route path="/alunos/:id" exact component={TasksDetail} />
         </Switch>
     );
 }

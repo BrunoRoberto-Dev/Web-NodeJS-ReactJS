@@ -5,63 +5,64 @@ import api from '../../services/api';
 import moment from 'moment';
 import './index.css';
  
-interface ITask{
+interface IAluno{
     id: number;
-    title: string;
-    description: string;
-    finished: boolean;
-    created_at: Date;
-    updated_at: Date;
+    nome: string;
+    ra: string;
+    cadastrado: boolean;
+    data_nascimento: Date;
+    idade: number;
+    endereço: string;
 }
  
-const Tasks: React.FC = () => {
+const Alunos: React.FC = () => {
  
-    const [tasks, setTasks] = useState<ITask[]>([])
+    const [alunos, setAlunos] = useState<IAluno[]>([])
     const history = useHistory()
  
     useEffect(() => {
-        loadTasks()
+        loadAlunos()
     }, [])
  
-    async function loadTasks() {
-        const response = await api.get('/tasks')
+    async function loadAlunos() {
+        const response = await api.get('/alunos')
         console.log(response);
-        setTasks(response.data)
+        setAlunos(response.data)
     }
  
     function formatDate(date: Date){
         return moment(date).format('DD/MM/YYYY')
     }
  
-    function newTask(){
-        history.push('/tarefas_cadastro')
+    function newAluno(){
+        history.push('/alunos_cadastro')
     }
  
-    function editTask(id: number){
-        history.push(`/tarefas_cadastro/${id}`)
+    function editAluno(id: number){
+        history.push(`/alunos_cadastro/${id}`)
     }
  
-    function viewTask(id: number){
-        history.push(`/tarefas/${id}`)
+    function viewAluno(id: number){
+        history.push(`/alunos/${id}`)
     }
  
-    async function finishedTask(id: number){
-        await api.patch(`/tasks/${id}`)
-        loadTasks()
+    async function finishedAluno(id: number){
+        await api.patch(`/alunos/${id}`)
+        loadAlunos()
     }
  
-    async function deleteTask(id: number){
-        await api.delete(`/tasks/${id}`)
-        loadTasks()
+    async function deleteAluno(id: number){
+        await api.delete(`/alunos/${id}`)
+        loadAlunos()
     }
  
     return (
         
         <div className="container">
             <br />
-            <div className="task-header">
+            <div className="aluno-header">
                 <h1>Cadastros</h1>
-                <Button variant="dark" size="sm" onClick={newTask}>Novo Cadastro</Button>
+                <Button variant="dark" size="sm" onClick={newAluno}>Novo Cadastro</Button>
             </div>
             <br />
             <Table striped bordered hover className="text-center">
@@ -69,24 +70,27 @@ const Tasks: React.FC = () => {
                     <tr>
                     <th>ID</th>
                     <th>Nome</th>
-                    <th>Data de Atualização</th>
-                    <th>Status</th>
+                    <th>RA</th>
+                    <th>Data de Nascimento</th>
+                    <th>Cadastrado</th>
+                    <th>Idade</th>
+                    <th>Endereço</th>
                     <th>Ações</th>
                     </tr>
                 </thead>
                 <tbody>
                     {
-                        tasks.map(task => (
-                            <tr key={task.id}>
-                                <td>{task.id}</td>
-                                <td>{task.title}</td>
-                                <td>{formatDate(task.updated_at)}</td>
-                                <td>{task.finished ? "Finalizado" : "Pendente"}</td>
+                        alunos.map(aluno => (
+                            <tr key={aluno.id}>
+                                <td>{aluno.id}</td>
+                                <td>{aluno.nome}</td>
+                                <td>{aluno.idade}</td>
+                                <td>{aluno.cadastrado ? "Ativo" : "Inativo"}</td>
                                 <td>
-                                    <Button size="sm" disabled={task.finished} variant="primary" onClick={() => editTask(task.id)}>Editar</Button>{' '}
-                                    <Button size="sm" disabled={task.finished} variant="success" onClick={() => finishedTask(task.id)}>Finalizar</Button>{' '}
-                                    <Button size="sm" variant="warning" onClick={() => viewTask(task.id)}>Visualizar</Button>{' '}
-                                    <Button size="sm" variant="danger" onClick={() => deleteTask(task.id)}>Remover</Button>{' '}
+                                    <Button size="sm" disabled={aluno.cadastrado} variant="primary" onClick={() => editAluno(aluno.id)}>Editar</Button>{' '}
+                                    <Button size="sm" disabled={aluno.cadastrado} variant="success" onClick={() => finishedAluno(aluno.id)}>Finalizar</Button>{' '}
+                                    <Button size="sm" variant="warning" onClick={() => viewAluno(aluno.id)}>Visualizar</Button>{' '}
+                                    <Button size="sm" variant="danger" onClick={() => deleteAluno(aluno.id)}>Remover</Button>{' '}
                                 </td>
                             </tr>
                         ))

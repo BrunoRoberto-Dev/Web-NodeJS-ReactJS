@@ -70,7 +70,7 @@ const Tasks: React.FC = () => {
             <div className="container">
                 <Form onSubmit={onSubmit}>
                     <Form.Group>
-                        <Form.Label>Título</Form.Label>
+                        <Form.Label>Nome</Form.Label>
                         <Form.Control
                             type="text"
                             name="title"
