@@ -101,4 +101,4 @@ const Alunos: React.FC = () => {
     );
 }
  
-export default Tasks;
+export default Alunos;

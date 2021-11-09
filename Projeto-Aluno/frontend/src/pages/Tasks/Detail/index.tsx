@@ -5,59 +5,56 @@ import './index.css';
 import api from '../../../services/api';
 import moment from 'moment';
  
-interface ITask{
+interface IAluno{
     id: number;
-    title: string;
-    description: string;
-    finished: boolean;
-    created_at: Date;
-    updated_at: Date;
+    nome: string;
+    ra: string;
+    cadastrado: boolean;
+    data_nascimento: Date;
+    idade: number;
+    endereco: string;
 }
  
 const Detail: React.FC = () => {
  
     const history = useHistory()
     const { id } = useParams<{ id: string }>()
-    const [task, setTask] = useState<ITask>()
+    const [aluno, setAluno] = useState<IAluno>()
  
     function back(){
         history.goBack()
     }
  
-    async function findTask(){
-        const response = await api.get<ITask>(`/tasks/${id}`)
+    async function findAluno(){
+        const response = await api.get<IAluno>(`/alunos/${id}`)
         console.log(response)
-        setTask(response.data)
+        setAluno(response.data)
     }
  
-    // Quando o param "id" mudar/receber um novo valor, o useEffect será executado chamando o findTask
     useEffect(() => {
-        findTask()
+        findAluno()
     }, [id])
  
     return (
         <div className="container">
             <br />
-            <div className="task-header">
-                <h1>Detalhes da Tarefa</h1>
+            <div className="aluno-header">
+                <h1>Detalhes do Aluno</h1>
                 <Button variant="dark" size="sm" onClick={back}>Voltar</Button>
             </div>
             <br />
  
             <Card style={{ width: '18rem' }}>
                 <Card.Body>
-                    <Card.Title>{task?.title}</Card.Title>
+                    <Card.Title>{aluno?.nome}</Card.Title>
                     
                     <Card.Text>
-                    {task?.description}
+                    {aluno?.endereco}
                     <br/>
-                    {task?.finished ? "Finalizado" : "Pendente"}
+                    {aluno?.cadastrado ? "Inativo" : "Ativo"}
                     <br />
-                    <strong>Data de Cadastro: </strong>
-                    {moment(task?.created_at).format('DD/MM/YYYY')}
-                    <br />
-                    <strong>Data de Atualização: </strong>
-                    {moment(task?.updated_at).format('DD/MM/YYYY')}
+                    <strong>Data de Nascimento: </strong>
+                    {moment(aluno?.data_nascimento).format('DD/MM/YYYY')}
                     </Card.Text>
                 </Card.Body>
             </Card>
